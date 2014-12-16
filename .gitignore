@@ -1,0 +1,6 @@
+public/libs
+vendor
+coverage
+.bundle
+.DS_Store
+.rspec

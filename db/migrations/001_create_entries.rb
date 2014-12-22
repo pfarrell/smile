@@ -3,6 +3,7 @@ Sequel.migration do
     create_table(:entries) do
       primary_key :id
       String :source
+      String :env
       String :message_id
       String :type
       Float  :execution_time

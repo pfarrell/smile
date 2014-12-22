@@ -6,6 +6,8 @@ require 'sinatra/respond_to'
 #require 'sinatra/cookies'
 require 'securerandom'
 require 'haml'
+require 'chartkick'
+require 'hightop'
 
 class App < Sinatra::Application
   helpers Sinatra::UrlForHelper

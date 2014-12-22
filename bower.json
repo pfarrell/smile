@@ -1,15 +1,12 @@
 {
-  "name": "APP",
+  "name": "droppings",
   "version": "0.0.1",
   "dependencies": {
-    "masonry": "~3.1.5",
-    "bootstrap": "~3.3.0"
   },
-  "homepage": "https://github.com/pfarrell/sinatra-shell",
   "authors": [
     "Patrick Farrell <mr.patfarrell@gmail.com>"
   ],
-  "description": "base template for sinatra applicaton",
+  "description": "analytics for rabbit messages'",
   "keywords": [
     "sinatra"
   ],
@@ -22,5 +19,6 @@
     "test",
     "tests",
     "public/libs"
-  ]
+  ],
+  "private": true
 }

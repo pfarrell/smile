@@ -2,5 +2,27 @@
   RabbitMQ Message Timings
   %small
     Welcome to the TerrorDome
-.hr
+%hr
+%h3
+  Message volumes by hour
+-data = Entry.by('hour')
+%h4 INT
+=column_chart data.select{|x| x[:name] == "INT"}
+%h4 QA
+=column_chart data.select{|x| x[:name] == "QA"}
+%hr
+%h3
+  Message Volume by Day
+=line_chart Entry.by('day')
+=column_chart Entry.by('day')
+%hr
+%h3
+  Message Volume by Day
+=pie_chart DB[:entries].group_and_count(Sequel.function(:DATE, :date)).map{|x| [x[:date], x[:count]]}
+%hr
+%h3
+  Log base 2 distribution of message types
+=column_chart DB[:entries].group_and_count(:type).map{|x| [x[:type], Math.log(x[:count], 2)]}
+%hr
+%h3
 :javascript

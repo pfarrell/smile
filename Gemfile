@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source "http://rubygems.org"
 
 gem 'rake'
 
@@ -14,6 +14,10 @@ gem 'capistrano-bundler', '~> 1.1.2'
 
 gem 'sequel'
 gem 'pg'
+
+gem 'chartkick'
+gem 'groupdate'
+gem 'hightop'
 
 group :development do
   gem 'rspec'

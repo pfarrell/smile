@@ -1,4 +1,4 @@
-#Sinatra-Shell
-I may write a dsl like the rails project commands.  To do that, I need to know what a good base sinatra app looks like.  This repo is where I track that.
+#Smile
+Imports Log4Net messages and parses logs lines for better visualization.
 
-From here out, I plan to base all sinatra apps off it and push any worthy opinions about layout back into it in a  clean way.
+Currently pretty specific to parsing Log4Net.  Expect to expand and move more into the db.

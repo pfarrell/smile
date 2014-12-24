@@ -9,3 +9,4 @@ Sequel::Model.plugin :timestamps
 Sequel::Model.plugin :json_serializer
 
 require 'models/entry'
+require 'models/error'

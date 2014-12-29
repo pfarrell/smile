@@ -1,3 +1,3 @@
 require 'routes/root'
-require 'routes/entry'
+require 'routes/message'
 require 'routes/error'

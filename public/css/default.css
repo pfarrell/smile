@@ -1,0 +1,8 @@
+td {
+  max-width: 150px;
+  overflow: auto;
+  word-wrap: break-word;
+}
+.table-data {
+  max-height: 100px;
+}

@@ -1,0 +1,17 @@
+%a.btn{href:"#{prev}"}
+  <<
+%a.btn{href:"#{nxt}"}
+  >>
+%table.table
+  %thead
+    %tr
+      -header.keys.each do |header|
+        %th
+          =header
+  %tbody
+    -data.each do |row|
+      %tr
+        -header.each do |name,prop|
+          %td
+            .table-data
+              =prop.call(row)

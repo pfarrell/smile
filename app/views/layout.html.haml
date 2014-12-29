@@ -21,12 +21,15 @@
           %span.icon-bar
           %span.icon-bar
         %a.navbar-brand{href:"#{url_for("/")}"}
-          App
+          Smile
       .collapse.navbar-collapse#navbar-collapse
         %ul.nav.navbar-nav
           %li
-            %a{href: "#{url_for("/")}"}
-              Menu stuff goes here
+            %a{href: "#{url_for("/messages")}"}
+              Messages
+          %li
+            %a{href: "#{url_for("/errors")}"}
+              Errors
     .container#content
       =yield
     .container.footer

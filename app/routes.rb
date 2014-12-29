@@ -1,2 +1,3 @@
 require 'routes/root'
-require 'routes/entry.rb'
+require 'routes/entry'
+require 'routes/error'

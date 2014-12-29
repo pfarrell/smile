@@ -1,5 +1,5 @@
 class App < Sinatra::Application
-  get "/" do
-    haml :index, locals: {}
+  get "/errors" do
+    haml :errors
   end
 end

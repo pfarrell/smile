@@ -1,4 +1,8 @@
 class App < Sinatra::Application
+  get "/messages" do
+    haml :messages
+  end
+
   get "/entries" do
     entries = Entry.by_hour
     respond_to do | wants|

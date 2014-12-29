@@ -1,0 +1,12 @@
+-unless data[:entries].nil?
+  %h2 Messages
+  -data[:entries].each do |entry|
+    .entry
+      %a{href: "/message/#{entry.id}"}
+        =entry.message_id
+-unless data[:errors].nil?
+  %h2 Errors
+  -data[:errors].each do |entry|
+    .entry
+      %a{href: "/error/#{entry.id}"}
+        =entry.message_id

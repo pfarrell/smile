@@ -12,4 +12,8 @@ class Error < Sequel::Model
     f
   end
 
+  def self.search(search)
+    where(:message_id => search)
+  end
+
 end

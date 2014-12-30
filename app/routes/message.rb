@@ -10,15 +10,19 @@ class App < Sinatra::Application
   get "/message/list/:page" do
     page = params[:page].to_i
     props={}
-    props["MessageID"] = lambda{|x| x.message_id}
-    props["Type"] = lambda{|x| x.type}
-    props["ExecutionTime"] = lambda{|x| x.execution_time}
-    props["Succeeded"] = lambda{|x| x.succeeded}
-    props["Date"] = lambda{|x| x.date}
-    props["Source"] = lambda{|x| x.source}
-    props["Env"] = lambda{|x| x.env}
+    props["MessageID"] = {value: lambda{|x| x.message_id}, link: lambda{|x| "/message/#{x.id}"}}
+    props["Type"] = {value: lambda{|x| x.type}, link: lambda{|x| "/message/#{x.id}"}}
+    props["ExecutionTime"] = {value: lambda{|x| x.execution_time}}
+    props["Succeeded"] = {value: lambda{|x| x.succeeded}}
+    props["Date"] = {value: lambda{|x| x.date}}
+    props["Source"] = {value: lambda{|x| x.source}}
+    props["Env"] = {value: lambda{|x| x.env}}
     data = Entry.order(:id).paginate(page, 25)
     haml :list, locals: {header: props, data: data, nxt: page + 1, prev: page -1}
+  end
+
+  get "/message/:id" do
+    haml :obj, locals: {model: Entry[params[:id].to_i], type: "Message"}
   end
 
   get "/entries" do

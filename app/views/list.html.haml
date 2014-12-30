@@ -1,6 +1,6 @@
-%a.btn{href:"#{prev}"}
+%a.btn.btn-primary{href:"#{prev}"}
   <<
-%a.btn{href:"#{nxt}"}
+%a.btn.btn-primary{href:"#{nxt}"}
   >>
 %table.table
   %thead
@@ -14,4 +14,8 @@
         -header.each do |name,prop|
           %td
             .table-data
-              =prop.call(row)
+              -if prop[:link].nil?
+                =prop[:value].call(row)
+              -else
+                %a{href:"#{prop[:link].call(row)}"}
+                  =prop[:value].call(row)

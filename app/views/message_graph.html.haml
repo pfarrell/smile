@@ -22,7 +22,9 @@
 %hr
 %h3
   Log base 2 distribution of message types
-=column_chart DB[:entries].group_and_count(:type).map{|x| [x[:type], Math.log(x[:count], 2)]}
+=column_chart DB[:entries].group_and_count(:type).order(:count).reverse.map{|x| [x[:type], Math.log(x[:count], 2)]}
 %hr
 %h3
+  Distribution of message types
+=column_chart DB[:entries].group_and_count(:type).order(:count).reverse.map{|x| [x[:type], x[:count]]}
 :javascript

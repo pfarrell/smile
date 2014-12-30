@@ -1,12 +1,32 @@
--unless data[:entries].nil?
-  %h2 Messages
-  -data[:entries].each do |entry|
-    .entry
-      %a{href: "/message/#{entry.id}"}
-        =entry.message_id
--unless data[:errors].nil?
-  %h2 Errors
-  -data[:errors].each do |entry|
-    .entry
-      %a{href: "/error/#{entry.id}"}
-        =entry.message_id
+%h2 Messages
+-if data[:entries].count == 0
+  No Matches...
+-else
+  %table.table
+    %tr
+      -data[:entries].first.keys.each do |key|
+        %th
+          =key
+    -data[:entries].each do |entry|
+      %tr
+      -entry.values.each do |k,v|
+        %td
+          .entry
+            %a{href: "/message/#{entry.id}"}
+              =v
+%h2 Errors
+-if data[:errors].count == 0
+  No Matches
+-else
+  %table.table
+    %tr
+      -data[:errors].first.keys.each do |key|
+        %th
+          =key
+    -data[:errors].each do |entry|
+      %tr
+      -entry.values.each do |k,v|
+        %td
+          .entry
+            %a{href: "/message/#{entry.id}"}
+              =v

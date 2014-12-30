@@ -4,7 +4,9 @@ Sequel.migration do
       primary_key :id
       String :source
       String :env
+      String :transaction_id
       String :message_id
+      String :loan_id
       String :type
       Float  :execution_time
       DateTime :date

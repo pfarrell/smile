@@ -7,6 +7,7 @@ class App < Sinatra::Application
     page = params[:page].to_i
     props={}
     props["MessageID"] = {value: lambda{|x| x.message_id}, link: lambda{|x| "/error/#{x.id}"}}
+    props["LoanID"] = {value: lambda{|x| x.loan_id}}
     props["Error"] = {value: lambda{|x| x.error}, link: lambda{|x| "/error/#{x.id}"}}
     props["Date"] = {value: lambda{|x| x.date}}
     props["Source"] = {value: lambda{|x| x.source}}

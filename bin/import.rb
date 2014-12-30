@@ -11,9 +11,17 @@ def parse_analytic(str)
   str.match(pattern)
 end
 
+def parse_log(str, type)
+  pattern = /(?<date>[\d :,\-]*) \[(?<route>[\w\.-]*)\-listener\].*#{type}.*: \[(?<json>.*)\]/
+  str.match(pattern)                        
+end
+
+def parse_info(str)
+  parse_log(str, "INFO")
+end
+
 def parse_error(str)
-  pattern = /(?<date>[\d :,\-]*) \[(?<route>[\w\.-]*)\-listener\].*ERROR.*: \[(?<json>.*)\]/
-  str.match(pattern)
+  parse_log(str, "ERROR")
 end
 
 def parse_json(json)
@@ -50,6 +58,8 @@ def handle_error(error, trace)
   error.source = ARGV[1]
   error.env = ARGV[2]
   error.message_id = msg['id'].to_s
+  loan_id = msg['entityNumber'] || msg['LoanID']
+  error.loan_id = loan_id.to_s
   error.error = trace[0]
   error.save
 end

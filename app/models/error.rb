@@ -13,7 +13,7 @@ class Error < Sequel::Model
   end
 
   def self.search(search)
-    where(:message_id => search)
+    where(Sequel.or(:message_id => search, :loan_id => search, :transaction_id => search))
   end
 
 end

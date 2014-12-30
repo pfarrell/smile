@@ -1,7 +1,12 @@
-%h2 Messages
 -if data[:entries].count == 0
+  %h2 
+    Messages
   No Matches...
 -else
+  %h2 
+    Messages 
+    %small
+      (#{data[:entries].count})
   %table.table
     %tr
       -data[:entries].first.keys.each do |key|
@@ -14,10 +19,15 @@
           .entry
             %a{href: "/message/#{entry.id}"}
               =v
-%h2 Errors
 -if data[:errors].count == 0
-  No Matches
+  %h2 
+    Errors
+    No Matches
 -else
+  %h2 
+    Errors 
+    %small
+      (#{data[:errors].count})
   %table.table
     %tr
       -data[:errors].first.keys.each do |key|

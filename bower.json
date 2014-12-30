@@ -1,7 +1,9 @@
 {
-  "name": "droppings",
+  "name": "smile",
   "version": "0.0.1",
   "dependencies": {
+    "bootstrap": "~3.3.1",
+    "chartkick": "~1.3.0"
   },
   "authors": [
     "Patrick Farrell <mr.patfarrell@gmail.com>"
@@ -20,5 +22,6 @@
     "tests",
     "public/libs"
   ],
-  "private": true
+  "private": true,
+  "homepage": "https://github.com/pfarrell/smile"
 }

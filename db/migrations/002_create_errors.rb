@@ -4,6 +4,7 @@ Sequel.migration do
       primary_key :id
       String :source
       String :env
+      String :type
       String :transaction_id
       String :message_id
       String :loan_id

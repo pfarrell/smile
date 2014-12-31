@@ -6,7 +6,7 @@ class App < Sinatra::Application
 
   get "/search/:id" do
     results = {}
-    results[:entries] = Entry.search(params[:id])
+    results[:entries] = Message.search(params[:id])
     results[:errors] = Error.search(params[:id])
     haml :search, locals: {data: results}
   end

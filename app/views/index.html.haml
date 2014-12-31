@@ -2,7 +2,11 @@
   %a{href:"/message/list"}
     %h3
       Messages
+      %small
+        (#{messages.count})
 .link
   %a{href:"/error/list"}
     %h3
       Errors
+      %small
+        (#{errors.count})

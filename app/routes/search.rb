@@ -5,10 +5,15 @@ class App < Sinatra::Application
   end
 
   get "/search/:id" do
+    redirect "/search/#{params[:id]}/1"
+  end
+
+  get "/search/:id/:page" do
     results = {}
-    results[:entries] = Message.search(params[:id])
-    results[:errors] = Error.search(params[:id])
-    haml :search, locals: {data: results}
+    page = params[:page].to_i
+    results[:entries] = Message.search(params[:id], page)
+    results[:errors] = Error.search(params[:id], page)
+    haml :search, locals: {data: results, nxt: page + 1, prev: page - 1}
   end
 
 end

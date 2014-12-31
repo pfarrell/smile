@@ -12,8 +12,8 @@ class Error < Sequel::Model
     f
   end
 
-  def self.search(search)
-    where(Sequel.or(:message_id => search, :loan_id => search, :transaction_id => search))
+  def self.search(search, page=1)
+    where(Sequel.or(:message_id => search, :loan_id => search, :transaction_id => search)).order(:id).paginate(page, 25)
   end
 
 end

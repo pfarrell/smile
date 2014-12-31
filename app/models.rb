@@ -10,5 +10,6 @@ DB.extension(:pagination)
 Sequel::Model.plugin :timestamps
 Sequel::Model.plugin :json_serializer
 
-require 'models/entry'
+require 'models/message'
 require 'models/error'
+require 'models/timing'

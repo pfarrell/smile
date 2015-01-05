@@ -8,6 +8,7 @@ require 'securerandom'
 require 'haml'
 require 'chartkick'
 require 'hightop'
+require 'httparty'
 
 class App < Sinatra::Application
   helpers Sinatra::UrlForHelper

@@ -19,6 +19,8 @@ gem 'chartkick'
 gem 'groupdate'
 gem 'hightop'
 
+gem 'httparty'
+
 group :development do
   gem 'rspec'
   gem 'simplecov'

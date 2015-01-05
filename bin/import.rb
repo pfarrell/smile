@@ -20,7 +20,6 @@ end
 
 def parse_analytic(str)
   pattern = /(?<date>[\d :,-]+) .* INFO .* - Type:\[(?<type>\S*)\],MessageId:\[(?<message_id>\S*)\],ExecutionTimeMillis\[(?<execution_time>[\d.]*)\],Succeeded:\[(?<succeeded>.*)\]/
-  puts str
   str.match(pattern)
 end
 
@@ -39,6 +38,9 @@ end
 
 def parse_json(json)
   return if json == ''
+  json = json.gsub('\\"', '"')
+  json = json.gsub('"{', '{')
+  json = json.gsub('}"', '}')
   obj = JSON.parse(json)
   #byebug if obj["RabbitAccountBasedMessage"] != nil
   obj = obj["RabbitAccountBasedMessage"] unless obj["RabbitAccountBasedMessage"].nil?
@@ -59,6 +61,17 @@ def handle_analytic(line)
   timing.source = ARGV[1]
   timing.env = ARGV[2]
   timing.save
+  make_analytic_hash(date, parts)
+end
+
+def make_analytic_hash(date, parts)
+  ret = {}
+  ret["date"] = date
+  ret['execution_time'] = parts["execution_time"].to_i
+  ret['message_id'] = parts["message_id"]
+  ret['succeeded'] = parts['succeeded']
+  ret['type'] = parts['type']
+  ret
 end
 
 def handle_error(error, trace=[])
@@ -75,10 +88,12 @@ def handle_error(error, trace=[])
   error.env = ARGV[2]
   error.type = j["messageType"]
   error.message_id = j['id'].to_s
-  loan_id = j['entityNumber'] || j['LoanID']
+  loan_id = j['entityNumber'] || j['LoanID'] || j['accountID']
   error.loan_id = loan_id.to_s
   error.error = trace[0]
   error.save
+  j["docid"] = error.id
+  j
 end
 
 def handle_info(info)
@@ -86,6 +101,11 @@ def handle_info(info)
   j = parse_json(parts['json'])
   date = parts['date'].gsub(/,/, '.')
   msg = Message.find(source: ARGV[1], date: date, message_id: j["id"].to_s)
+  if(!msg.nil?) 
+    loan_id = j['entityNumber'] || j['LoanID'] || j['accountID']
+    msg.loan_id = loan_id
+    msg.save
+  end
   return unless msg.nil?
   msg = Message.new
   msg.date = date
@@ -93,9 +113,11 @@ def handle_info(info)
   msg.source = ARGV[1]
   msg.env = ARGV[2]
   msg.message_id = j['id'].to_s
-  loan_id = j['entityNumber'] || j['LoanID']
+  loan_id = j['entityNumber'] || j['LoanID'] || j['accountID']
   msg.loan_id = loan_id.to_s
   msg.save
+  j["docid"] = msg.id
+  j
 end
 
 def error_start?(line)
@@ -111,6 +133,7 @@ def error_completion?(line)
 end
 
 error_collect, error, trace = nil
+es = ElasticSearch.new
 
 File.foreach(ARGV[0]).each do |line|
   if(local_error?(line))
@@ -120,15 +143,20 @@ File.foreach(ARGV[0]).each do |line|
   elsif(error_collect && error_continuation?(line))
     trace << line
   elsif(error_collect && error_completion?(line))
-    handle_error(error, trace)
+    json = handle_error(error, trace)
+    es.save("s2p", "error", json["docid"], json.to_json) unless json.nil?
     error_collect = false
-    handle_analytic(line) if analytic?(line)
-    handle_info(line) if info?(line)
+    json = handle_analytic(line) if analytic?(line)
+    es.save("s2p", "analytic", json["message_id"], json.to_json) unless json.nil? 
+    json = handle_info(line) if info?(line)
   elsif(info?(line)) 
-    handle_info(line)
+    json = handle_info(line)
+    es.save("s2p", "info", json["docid"], json.to_json) unless json.nil?
   elsif(analytic?(line))
-    handle_analytic(line)
+    json = handle_analytic(line)
+    es.save("s2p", "analytic", json["message_id"], json.to_json) unless json.nil? 
   elsif(remote_error?(line))
-    handle_error(line)
+    json = handle_error(line)
+    es.save("s2p", "error", json["docid"], json.to_json) unless json.nil?
   end
 end

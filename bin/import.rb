@@ -135,6 +135,7 @@ end
 error_collect, error, trace = nil
 es = ElasticSearch.new
 
+puts "processing #{ARGV[0]}"
 File.foreach(ARGV[0]).each do |line|
   if(local_error?(line))
     error = line
